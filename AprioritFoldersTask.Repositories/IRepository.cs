@@ -17,6 +17,8 @@ namespace AprioritFoldersTask.Repositories
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null);
+
         int Remove(TEntity entity);
         Task<int> RemoveAsync(TEntity entity);
         int RemoveRange(IEnumerable<TEntity> entities);

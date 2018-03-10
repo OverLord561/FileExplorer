@@ -1,4 +1,5 @@
 ﻿using AprioritFoldersTask.Models;
+using AutoMapper.QueryableExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -91,6 +92,23 @@ namespace AprioritFoldersTask.Repositories.EntityFramework
             return await Include().SingleOrDefaultAsync(predicate);
         }
 
+        public virtual async Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null)
+        {
+            IQueryable<TProjection> projection;
+            var query = Include().Where(predicate);
+
+            if (parameters != null)
+            {
+                projection = query.ProjectTo<TProjection>(parameters);
+            }
+            else
+            {
+                projection = query.ProjectTo<TProjection>();
+            }
+
+            return await projection.SingleOrDefaultAsync();
+        }
+
         public virtual void Update(TEntity entity)
         {
             if (entity == null)
@@ -134,5 +152,7 @@ namespace AprioritFoldersTask.Repositories.EntityFramework
             _context.Set<TEntity>().RemoveRange(entities);
             return _context.SaveChanges();
         }
+
+       
     }
 }

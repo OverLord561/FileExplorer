@@ -1,26 +1,28 @@
 ﻿using AprioritFoldersTask.Repositories;
+using AprioritFoldersTask.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace AprioritFoldersTask.Controllers
 {
-    public class FoldersController : Controller
+    public class FoldersController : AsyncController
     {
 
-        private IFoldersRepository _foldersRepository;
+        private IFoldersService _foldersService;
 
-        public FoldersController(IFoldersRepository  foldersRepository)
+        public FoldersController(IFoldersService foldersService)
         {
-            this._foldersRepository = foldersRepository;
+            this._foldersService = foldersService;
         }
         // GET: Folders
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var all = _foldersRepository.Get(x=>x.ParentId > 1).ToList();
-            return View();
+            var rootFolder = await _foldersService.GetRootFolder();
+            return View(rootFolder);
         }
     }
 }

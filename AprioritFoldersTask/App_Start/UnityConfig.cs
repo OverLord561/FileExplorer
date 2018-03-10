@@ -1,5 +1,7 @@
 using AprioritFoldersTask.Repositories;
 using AprioritFoldersTask.Repositories.EntityFramework;
+using AprioritFoldersTask.Services;
+using AprioritFoldersTask.Services.Interfaces;
 using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
@@ -17,6 +19,9 @@ namespace AprioritFoldersTask
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IFoldersRepository, FoldersRepository>();
+            container.RegisterType<IFoldersService, FoldersService>();
+            
+            
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

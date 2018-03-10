@@ -5,11 +5,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AprioritFoldersTask.Mapping;
+using AprioritFoldersTask.Models;
+using AutoMapper;
 
 namespace AprioritFoldersTask
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public Type FoldersViewModel { get; private set; }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -17,7 +22,13 @@ namespace AprioritFoldersTask
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+
             UnityConfig.RegisterComponents();
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<FoldersMappingProfile>();
+            });
+
         }
         protected void Application_Error()
         {
